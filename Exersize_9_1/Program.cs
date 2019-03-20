@@ -12,7 +12,7 @@ namespace Exersize_9_1
         private long[] array;
 
         public int Length { get => array.Length; }
-        public bool IsError { get; private set; }
+        public bool? IsError { get; private set; }
 
         public RandomArray(int capacity)
         {
@@ -25,7 +25,7 @@ namespace Exersize_9_1
             get
             {
                 IsError = x < 0 || x > Length;
-                if (IsError)
+                if (IsError.Value)
                     return -1;
                 return array[x];
             }
@@ -33,8 +33,8 @@ namespace Exersize_9_1
             {
                 var pow = Math.Log(value, 2);
 
-                IsError = x < 0 || x > Length || Math.Log(value, 2) % 1 == 0;
-                if (!IsError)
+                IsError = x < 0 || x > Length || Math.Log(value, 2) % 1 != 0;
+                if (!IsError.Value)
                     array[x] = value;
             }
         }
@@ -47,11 +47,11 @@ namespace Exersize_9_1
 
         public void RandomInit()
         {
-           array = Enumerable.Range(0, (int)Math.Log(long.MaxValue, 2))
-                             .Select(x => (long)Math.Pow(2, x))
-                             .OrderBy(x => rndGen.NextDouble())
-                             .Take(Length)
-                             .ToArray();            
+            int limit = (int)Math.Log(long.MaxValue, 2);
+            for (int i = 0; i < Length; i++)
+            {
+                array[i] = (long)Math.Pow(2, rndGen.Next(0, limit));
+            }
         }
 
         public double AmmountOfDegrees()
@@ -59,14 +59,52 @@ namespace Exersize_9_1
             var pows = array.Select(x => Math.Log(x, 2));
             return pows.Aggregate((x, y) => x * y) / pows.Sum();
         }
+
+        public override string ToString()
+        {
+            string message = IsError.HasValue ? (IsError.Value ? "Последняя операция c ошибкой" : "Последняя операция без ошибок") : "Операций не производилось";
+            return $"[{string.Join(", ", array)}]\n{message}";
+        }
     }
     class Program
     {
         static void Main(string[] args)
         {
-            var r = 0.3 % 1;
-            var f = 4.0 % 1;
-            var t = 4.9 % 1;
+            RandomArray rArray;
+            while (true)
+            {
+                Console.Write("Создание экземпляра класса RandomArray\nВведите длину массива (от 10 до 100): ");
+                int capacity = 0;
+                if (int.TryParse(Console.ReadLine(), out capacity) && capacity >= 10 && capacity <= 100)
+                {
+                    rArray = new RandomArray(capacity);
+                    break;
+                }
+                else
+                    Console.WriteLine("Вводимое значение должно быть натуральным числом от 10 до 100\nПовторите ввод");
+            }
+
+            StepInfo(rArray, "Массив до инициации случайными значениями");
+            
+            rArray.RandomInit();
+
+            StepInfo(rArray, "Массив после инициации случайными значениями");
+
+            StepInfo(rArray.AmmountOfDegrees(), "Результат работы метода AmountOfDegrees");
+
+            rArray[0] = 5;
+            StepInfo(rArray, "Попытка присвоить невалидное значение - 5, первому элементу массива");
+
+            rArray[0] = 8;
+            StepInfo(rArray, "Попытка присвоить валидное значение - 8, первому элементу массива");
+
+
+        }
+
+        static void StepInfo(object obj, string message)
+        {
+            Console.WriteLine(message);
+            Console.WriteLine(obj + "\n");
         }
     }
 }
