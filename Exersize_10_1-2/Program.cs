@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace Exersize_10_1
+namespace Exersize_10_1-2
 {
     class Program
     {
