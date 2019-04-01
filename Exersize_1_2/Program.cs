@@ -11,23 +11,34 @@ namespace Exersize_1_2
     {
         static void Main(string[] args)
         {
-            Console.Write("Введите длину катета: ");
-            double katet = double.Parse(Console.ReadLine());
-            Console.Write("Введите значение радиуса: ");
-            double radius = double.Parse(Console.ReadLine());
+            while (true)
+            {
+                try
+                {
+                    Console.Write("Введите длину катета: ");
+                    double katet = double.Parse(Console.ReadLine());
+                    Console.Write("Введите значение радиуса: ");
+                    double radius = double.Parse(Console.ReadLine());
 
-            var triangleInfo = GetTriangle(katet, radius);
-            TriangleOutput(triangleInfo.ToTuple());
+                    var triangleInfo = GetTriangle(katet, radius);
+                    TriangleOutput(triangleInfo.ToTuple());
 
 
-            Console.WriteLine("Подставив полученное значение катета в изначальную задачу, получим: ");
+                    Console.WriteLine("Подставив полученное значение катета в изначальную задачу, получим: ");
 
-            triangleInfo = GetTriangle(triangleInfo.unknownKatet, radius);
-            TriangleOutput(triangleInfo.ToTuple());
+                    triangleInfo = GetTriangle(triangleInfo.unknownKatet, radius);
+                    TriangleOutput(triangleInfo.ToTuple());
 
-            Console.WriteLine("При равнобедренном треугольнике (катет = 2 + корень из 2 и радиус = 1), получим: ");
+                    Console.WriteLine("При равнобедренном треугольнике (катет = 2 + корень из 2 и радиус = 1), получим: ");
 
-            TriangleOutput(GetTriangle(2 + Math.Sqrt(2), 1).ToTuple());
+                    TriangleOutput(GetTriangle(2 + Math.Sqrt(2), 1).ToTuple());
+                    break;
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
             Console.ReadLine();
         }
 
