@@ -17,26 +17,32 @@ namespace Exersize_2
             Thread.CurrentThread.CurrentCulture = ce;
 
             Console.OutputEncoding = Encoding.Default;
+            decimal StartMoneyMemory;
             decimal StartMoney;
             do
             {
                 Console.Write("Введите сумму вклада: ");
-                StartMoney = decimal.Parse(Console.ReadLine());
+                StartMoneyMemory =  StartMoney = decimal.Parse(Console.ReadLine());
             } while (!CheckInput(StartMoney));
 
-            Console.WriteLine("Вы вложили сумму - {0}, на срок - 10 лет. План капитализации:", StartMoney);
+            Console.WriteLine("Вы вложили сумму - {0:C}, на срок - 10 лет. План капитализации:", StartMoney);
             for (int i = 1; i <= 10; i++)
             {
                 Console.WriteLine("Через {0} год(а)(лет) сумма вашего вклада составит {1:C}", i, Math.Round(StartMoney += StartMoney * 0.08M, 3));
             }
 
+            Console.WriteLine("Эффективная процентная ставка вклада составила: {0:P}\n", (StartMoney - StartMoneyMemory) / StartMoneyMemory);
+
+            List<decimal> profitNorms = new List<decimal>();
             Console.WriteLine("Вложили полученный капитал в акции Сбербанка на год.\nКапитализация:");
             for (int i = 1; i <= 12; i++)
             {
                 decimal percent = SberbankPercent(i);
                 decimal delta = StartMoney * SberbankPercent(i);
-                Console.WriteLine("Через {0} месяц(а)(ев) сумма ваших вложений составит {1:C} ({2:C} {3:P})", i, Math.Round(StartMoney = StartMoney + delta, 3),Math.Round(delta,3), percent);
+                profitNorms.Add(delta / StartMoney);
+                Console.WriteLine("Через {0} месяц(а)(ев) сумма ваших вложений составит {1:C} ({2:C} {3:P})", i, Math.Round(StartMoney += delta, 3),Math.Round(delta,3), percent);
             }
+            Console.WriteLine("Среднее значение нормы прибыли за 12 месяцев составило: {0:P}\n", profitNorms.Average());
 
             Console.Write("Введите число месяцев для прогноза прибыли(от 13 до 48): ");
             int months = int.Parse(Console.ReadLine());
