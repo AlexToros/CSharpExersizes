@@ -21,6 +21,11 @@ namespace Exersize_3_1
         {
             return Math.Sqrt(Math.Pow(point.X - X, 2) + Math.Pow(point.Y - Y, 2));
         }
+
+        public override string ToString()
+        {
+            return $"({X}, {Y})";
+        }
     }
     struct Line
     {
@@ -156,11 +161,15 @@ namespace Exersize_3_1
                 new Point(30,30),
                 new Point(30,40)
             };
+            Point checkPoint = new Point(22, 30);
             Line line = new Line(points[0], points[2]);
             Square square = new Square(points[0], 20);
+            Console.WriteLine("Создана линия");
             Console.WriteLine(line);
+            Console.WriteLine($"Создан квадрат по координатам {string.Join(", ",points)}");
             Console.WriteLine(square);
-            Console.WriteLine(square.IsOnSquare(points[0]));
+            Console.WriteLine($"Проверка, лежит ли точка {checkPoint} на созданном квадрате");
+            Console.WriteLine(square.IsOnSquare(checkPoint));
             Console.ReadLine();
         }
     }
