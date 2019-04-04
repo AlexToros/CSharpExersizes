@@ -48,7 +48,7 @@ namespace Exersize_3_1
             if (A.X == B.X || A.Y == B.Y)
                 return true;
 
-            return (point.X - A.X) / (A.X - B.X) == (point.Y - A.Y) / (A.Y - B.Y);
+            return Math.Abs((point.X - A.X) / (A.X - B.X) - (point.Y - A.Y) / (A.Y - B.Y)) < double.Epsilon * 1000;
         }
 
         public override string ToString()
@@ -121,7 +121,7 @@ namespace Exersize_3_1
 
         public bool IsOnCircle(Point point)
         {
-            return Math.Pow(point.X - Center.X, 2) + Math.Pow(point.Y - Center.Y, 2) == Math.Pow(Radius, 2);
+            return Math.Abs(Math.Pow(point.X - Center.X, 2) + Math.Pow(point.Y - Center.Y, 2) - Math.Pow(Radius, 2)) < double.Epsilon * 1000;
         }
     }
 
