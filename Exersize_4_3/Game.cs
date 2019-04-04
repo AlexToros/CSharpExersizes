@@ -21,16 +21,6 @@ namespace Exersize_4_3
             foreach (var item in vehicles)
             {
                 item.Move();
-            }
-            foreach (var item in GetCurrentStates())
-            {
-                yield return item;
-            }
-        }
-        private IEnumerable<string> GetCurrentStates()
-        {
-            foreach (var item in vehicles)
-            {
                 yield return item.ToString();
             }
         }

@@ -22,8 +22,8 @@ namespace Exersize_4_3
 
             Timer timer = new Timer();
             timer.Elapsed += Timer_Elapsed;
-            timer.Interval = 100;
-            Console.WriteLine(Vehicle.GetHeaders());
+            timer.Interval = 1000;
+            Console.WriteLine(Vehicle.Headers);
             timer.Start();
             Console.ReadLine();
             timer.Stop();
