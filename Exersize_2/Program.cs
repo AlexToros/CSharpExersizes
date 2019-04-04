@@ -12,7 +12,10 @@ namespace Exersize_2
     {
         static void Main(string[] args)
         {
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-us");
+            CultureInfo ce = new CultureInfo("en-us");
+            ce.NumberFormat.CurrencyNegativePattern = 1; // минус вместо скобок у отрицательных валют
+            Thread.CurrentThread.CurrentCulture = ce;
+
             Console.OutputEncoding = Encoding.Default;
             decimal StartMoney;
             do
@@ -21,7 +24,7 @@ namespace Exersize_2
                 StartMoney = decimal.Parse(Console.ReadLine());
             } while (!CheckInput(StartMoney));
 
-            Console.WriteLine("Вы вложили сумму - {0}, на срок - 10 лет. План капитализации:");
+            Console.WriteLine("Вы вложили сумму - {0}, на срок - 10 лет. План капитализации:", StartMoney);
             for (int i = 1; i <= 10; i++)
             {
                 Console.WriteLine("Через {0} год(а)(лет) сумма вашего вклада составит {1:C}", i, Math.Round(StartMoney += StartMoney * 0.08M, 3));
