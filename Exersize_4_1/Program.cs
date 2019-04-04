@@ -21,6 +21,11 @@ namespace Exersize_4_1
         {
             return Math.Sqrt(Math.Pow(point.X - X, 2) + Math.Pow(point.Y - Y, 2));
         }
+
+        public override string ToString()
+        {
+            return $"({X}, {Y})";
+        }
     }
     class Line
     {
@@ -43,7 +48,7 @@ namespace Exersize_4_1
             if (A.X == B.X || A.Y == B.Y)
                 return true;
 
-            return (point.X - A.X) / (A.X - B.X) == (point.Y - A.Y) / (A.Y - B.Y);
+            return Math.Abs((point.X - A.X) / (A.X - B.X) - (point.Y - A.Y) / (A.Y - B.Y)) < double.Epsilon * 1000;
         }
 
         public override string ToString()
@@ -116,7 +121,7 @@ namespace Exersize_4_1
 
         public bool IsOnCircle(Point point)
         {
-            return Math.Pow(point.X - Center.X, 2) + Math.Pow(point.Y - Center.Y, 2) == Math.Pow(Radius, 2);
+            return Math.Abs(Math.Pow(point.X - Center.X, 2) + Math.Pow(point.Y - Center.Y, 2) - Math.Pow(Radius, 2)) < double.Epsilon * 1000;
         }
     }
 
@@ -150,6 +155,22 @@ namespace Exersize_4_1
     {
         static void Main(string[] args)
         {
+            Point[] points = {
+                new Point(20,30),
+                new Point(20,40),
+                new Point(30,30),
+                new Point(30,40)
+            };
+            Point checkPoint = new Point(22, 30);
+            Line line = new Line(points[0], points[2]);
+            Square square = new Square(points[0], 20);
+            Console.WriteLine("Создана линия");
+            Console.WriteLine(line);
+            Console.WriteLine($"Создан квадрат по координатам {string.Join(", ", points.AsEnumerable())}");
+            Console.WriteLine(square);
+            Console.WriteLine($"Проверка, лежит ли точка {checkPoint} на созданном квадрате");
+            Console.WriteLine(square.IsOnSquare(checkPoint));
+            Console.ReadLine();
         }
     }
 }
